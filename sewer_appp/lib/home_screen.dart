@@ -70,7 +70,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Colors.black87,
               ),
               accountName: Text("prerna semwal"),
-              accountEmail: Text(loggedInUser.email),
+              accountEmail: Text("email"),
+//loggedInUser.email
               currentAccountPicture: CircleAvatar(
                 backgroundColor:
                 Theme.of(context).platform == TargetPlatform.iOS ? Colors.black : Colors.white,
@@ -141,10 +142,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 48.0,
               ),
               RoundedButton(title:'Search',colour: Colors.black87,onPressed:() {
-                if(controller.text=="kashmiri gate")
-                {
-                  Navigator.pushNamed(context,HomeScreen.id);
-                }
+//                if(controller.text=="kashmiri gate")
+//                {
+                  Navigator.pushNamed(context,MapedScreen.id);
+//                }
               }, ),
             ],
           ),
