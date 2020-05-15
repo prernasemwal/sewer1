@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sewerappp/rounded_button.dart';
 import 'package:sewerappp/login_screen.dart';
 import 'package:sewerappp/registration_screen.dart';
+import 'package:catcher/catcher_plugin.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static const String id= 'welcome_screen';
