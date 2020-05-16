@@ -49,7 +49,4 @@ class Sewer extends StatelessWidget {
       },
     );
   }
-  NotificationReportMode(){
-    print("profile configuration problem");
-  }
 }

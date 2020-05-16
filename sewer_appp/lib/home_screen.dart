@@ -1,8 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:sewerappp/welcome_screen.dart';
 import 'components.dart';
 import 'rounded_button.dart';
 import 'package:sewerappp/maped_screen.dart';
+import 'login_screen.dart';
+import 'welcome_screen.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -53,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: AppBar(
 
             centerTitle: true,
-            title: Text('Swasthya'),
+            title: Text('Swatchta'),
             actions: <Widget>[
             ],
             backgroundColor: Colors.black,
@@ -70,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Colors.black87,
               ),
               accountName: Text("prerna semwal"),
-              accountEmail: Text("email"),
+              accountEmail: Text(loggedInUser.email),
 //loggedInUser.email
               currentAccountPicture: CircleAvatar(
                 backgroundColor:
@@ -104,8 +107,10 @@ class _HomeScreenState extends State<HomeScreen> {
               title: Text('Log out', style: TextStyle(fontSize: 15.0,
                 color: Colors.black,),),
               onTap: () {
-                _auth.signOut();
-                Navigator.pop(context);
+                _auth.signOut();setState(() {
+                  Navigator.pop(context,WelcomeScreen.id);
+                });
+
               },
             ),
           ],
