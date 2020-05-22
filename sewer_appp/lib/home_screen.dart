@@ -6,7 +6,7 @@ import 'rounded_button.dart';
 import 'package:sewerappp/maped_screen.dart';
 import 'login_screen.dart';
 import 'welcome_screen.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeScreen extends StatefulWidget {
 
@@ -14,15 +14,16 @@ class HomeScreen extends StatefulWidget {
 //  final GoogleMapOverlayController controller;
 //
 //  const MapUiBody(this.controller, GoogleMapController mapController);
-
-
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String result="";
+  final _firestore = Firestore.instance;
+//  crudMethods crudObj=new crudMethods();
+ // String result="";
   String check="";
+  String place;
   final _auth = FirebaseAuth.instance;
   FirebaseUser loggedInUser;
   void getCurrentUser() async{
@@ -35,12 +36,26 @@ class _HomeScreenState extends State<HomeScreen> {
     catch(e){
       print(e);
     }
-  }
+  }//in cases where the data is not changing again and again
+//  void getArea()async{
+//   final area = await _firestore.collection('area').getDocuments();
+//   for(var area in area.documents){
+//     print(area.data);
+//   }
+//  }
+  //to listen to the stream of messages like in case of chatting
+//  void messageStream() async {
+//   await for(var snapshot in  _firestore.collection('latlong').snapshots())
+//     {for(var lat in snapshot.documents){
+//     print(lat.data);
+//   }
+//     }
+//  }
+
   void initState() {
     super.initState();
     getCurrentUser();
-
-    super.initState();
+  super.initState();
   }
   //allows us to control the text in the text field
   final TextEditingController controller = new TextEditingController();
@@ -48,8 +63,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
+//        color:Colors.grey,
           image: DecorationImage(
-              image: AssetImage("images/finalwater.png"), fit: BoxFit.cover)),
+              image: AssetImage("images/finalwater.png"), fit: BoxFit.cover)
+            ),
       child: Scaffold(
         appBar: PreferredSize(
           preferredSize: Size(double.infinity, 100),
@@ -95,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             ListTile(
-              title: Text('maped', style: TextStyle(fontSize: 15.0,
+              title: Text('List', style: TextStyle(fontSize: 15.0,
                 color: Colors.black,),),
               onTap: () {
                 Navigator.pushNamed(context,MapedScreen.id);
@@ -125,33 +142,49 @@ class _HomeScreenState extends State<HomeScreen> {
             children: <Widget>[
               Column(
                 children: <Widget>[
+                  Text(
+                    'Type the name of the area to get the status of its respective manholes !',
+                    style: TextStyle(
+                      fontSize: 30.0,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 48.0,
+                  ),
                   TextField(
                     textAlign: TextAlign.center,
                     onChanged: (value) {
                       setState(() {
-                        result=value;
-
+                        place=value;
                       }
                       );
+
                     },
                     //Do something with the user input.
                     // controller.text="";
                     controller: controller,
 //                  check=controller.text,
-                    decoration:  kTextFileDecoration.copyWith(hintText:'Search here'),
+                    decoration:  kTextFileDecoration.copyWith(hintText:'eg- Kashmiri Gate'),
                   ),
 
                 ],
               ),
               SizedBox(
-                height: 48.0,
+                height: 30.0,
               ),
               RoundedButton(title:'Search',colour: Colors.black87,onPressed:() {
-//                if(controller.text=="kashmiri gate")
-//                {
-                  Navigator.pushNamed(context,MapedScreen.id);
-//                }
-              }, ),
+
+//                Map area ={'area':this.place,'user':loggedInUser.email};
+//                crudObj.addData(area).then((result){
+//                  dialogTrigger(context);
+//                }).catchError((e){
+//                  print(e);
+//                });
+               _firestore.collection('area').add({'area':place,'user':loggedInUser.email});
+               Navigator.pushNamed(context,MapedScreen.id);
+              },
+              ),
             ],
           ),
         ),
@@ -159,3 +192,30 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+getData() async{
+  return await Firestore.instance.collection('area').getDocuments();
+}
+
+//Future<bool> dialogTrigger(BuildContext context) async{
+//  return showDialog(
+//    context:context,
+//    barrierDismissible:false,
+//    builder: (BuildContext context){
+//      return AlertDialog(
+//        title:Text('job done ',style: TextStyle(fontSize:15.0)),
+//        content:Text('Added'),
+//        actions:<Widget>[
+//          FlatButton(
+//            child: Text('Alright'),
+//            textColor:Colors.blue,
+//            onPressed:(){
+//              Navigator.pushNamed(context,MapedScreen.id);
+//            },
+//          )
+//        ],
+//      );
+//
+//    }
+//  );
+//}

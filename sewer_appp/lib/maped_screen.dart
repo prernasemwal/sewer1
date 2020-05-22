@@ -8,7 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sewerappp/maped_screen.dart';
 import 'components.dart';
 import 'rounded_button.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MapedScreen extends StatefulWidget{
 static const String id='maped_screen';
@@ -60,7 +60,25 @@ class _MapedScreenState extends State<MapedScreen> {
         position: LatLng(28.38,77.12)
     )
       ,);
-  }
+  super.initState();
+  allMarkers.add(Marker(
+  markerId:MarkerId('myMarker'),
+  draggable: false,
+  onTap:() {
+  print('Marker Tapped');},
+  position: LatLng( 28.481216,77.019135)
+  )
+  ,);
+//super.initState();
+//allMarkers.add(Marker(
+//markerId:MarkerId('myMarker'),
+//draggable: false,
+//onTap:() {
+//print('Marker Tapped');},
+//position: LatLng(28.38,77.12)
+//)
+//,);
+}
 //  String result="";
 //  String check="";
   //allows us to control the text in the text field
@@ -77,7 +95,7 @@ class _MapedScreenState extends State<MapedScreen> {
           child: AppBar(
 
             centerTitle: true,
-            title: Text('Swasthya'),
+            title: Text('Swatchta'),
             actions: <Widget>[
             ],
             backgroundColor: Colors.black,
@@ -86,7 +104,8 @@ class _MapedScreenState extends State<MapedScreen> {
           ),
         ),
         backgroundColor: Colors.transparent,
-        body: Stack(
+        body:
+        Stack(
             children:[ Container(height: MediaQuery
                 .of(context)
                 .size
@@ -133,8 +152,10 @@ class _MapedScreenState extends State<MapedScreen> {
                   ),
                 ),
               )
-          ] ),
-    ),);
+          ] ,
+    ),
+    ),
+    );
   }
         void mapCreated(controller)
     {
