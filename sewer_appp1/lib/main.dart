@@ -27,7 +27,6 @@ class Sewer extends StatelessWidget {
         LoginScreen.id:(context)=>LoginScreen(),
         RegistrationScreen.id:(context)=>RegistrationScreen(),
         HomeScreen.id:(context)=>HomeScreen(),
-        MapScreen.id:(context)=> MapScreen()
       },
     );
   }
