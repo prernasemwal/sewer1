@@ -20,20 +20,13 @@ class _LoginScreenState extends State<LoginScreen> {
   bool loading = false;
   String email;
   String password;
-  String error;
+  String error = ' ';
 
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-//          image: DecorationImage(
-//              image: AssetImage("images/inside.png"), fit: BoxFit.cover)
-      ),
-      child: loading ? Loading() : Scaffold(
-        backgroundColor: Colors.transparent,
-        //backgroundColor: Colors.white,
+    return loading ? Loading() : Scaffold(
+        backgroundColor: Colors.white,
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.0),
           child: ListView(
@@ -96,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       height: 24.0,
                     ),
-                    RoundedButton(title:'Log In',colour: Colors.black54,
+                    RoundedButton(title:'Log In',colour: Colors.black,
                         onPressed: () async {
                           if(_formKey.currentState.validate()){
                             setState(() {
@@ -114,9 +107,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             }
                           }
                         }
-                      //  onPressed:(){
-                      //Navigator.pushNamed(context, HomeScreen.id);
-                      //},
+                    ),
+                    SizedBox(height: 12.0),
+                    Text(
+                      error,
+                      style: TextStyle(color: Colors.red, fontSize: 14.0),
                     ),
                   ],
                 ),
@@ -124,7 +119,6 @@ class _LoginScreenState extends State<LoginScreen> {
             ],
           ),
         ),
-      ),
     );
   }
 }

@@ -6,6 +6,8 @@ import 'package:sewerappp/authentication/registration_screen.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 
+import 'package:sewerappp/screens/mapped.dart';
+
 void main()
 {
   runApp(Sewer());
@@ -25,6 +27,7 @@ class Sewer extends StatelessWidget {
         LoginScreen.id:(context)=>LoginScreen(),
         RegistrationScreen.id:(context)=>RegistrationScreen(),
         HomeScreen.id:(context)=>HomeScreen(),
+        MapScreen.id:(context)=> MapScreen()
       },
     );
   }

@@ -24,15 +24,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("images/wall.jpg"), fit: BoxFit.cover)),
-
-
-      child: loading ? Loading() : Scaffold(
-        backgroundColor: Colors.transparent,
-        // backgroundColor: Colors.white,
+    return loading ? Loading() : Scaffold(
+        backgroundColor: Colors.white,
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.0),
           child: ListView(
@@ -43,14 +36,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  // Container(
-                  // height: 200.0,
-                  // child: Image.asset('images/logo.png'),
-                  //),
+                  SizedBox(
+                    height: 15.0,
+                  ),
                   Text(
                     'Register',
                     style: TextStyle(
-                      fontSize: 40.0,
+                      fontSize: 35.0,
                       fontWeight: FontWeight.w900,
                     ),
                   ),
@@ -153,6 +145,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       password2 = value;
                       //Do something with the user input.
                     },
+                    obscureText: true,
                     validator: (val){
                       if(val.isEmpty)
                         return 'confirm your password';
@@ -188,7 +181,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         ],
           ),
         ),
-      ),
-    );
+      );
   }
 }
