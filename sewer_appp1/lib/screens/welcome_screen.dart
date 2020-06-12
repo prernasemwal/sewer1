@@ -17,44 +17,48 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           image: DecorationImage(
               image: AssetImage("images/finalwater.png"), fit: BoxFit.cover)),
       child: Scaffold(
-        backgroundColor: Colors.transparent,
+       backgroundColor: Colors.transparent,
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: ListView(
             children: <Widget>[
-              Column(
-                children: <Widget>[
-                  Container(
-                    //color: Colors.black12,
-                    child: Image.asset('images/manholecoverb.png'),
-                    height: 200.0,
-                  ),
-                  SizedBox(
-                    width:10.0,
-                  ),
-                  Text(
-                    'Swatchta ',
-                    style: TextStyle(
-                      fontSize: 45.0,
-                      fontWeight: FontWeight.w900,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    Container(
+                      //color: Colors.black12,
+                      child: Image.asset('images/manholecoverb.png'),
+                      height: 200.0,
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 48.0,
-              ),
-              RoundedButton(title:'Log-In',colour:Colors.black54 ,onPressed: ()
-              {Navigator.pushNamed(context, LoginScreen.id);
-                //Go to login screen.
-              },),
-              RoundedButton(title:'Register',colour: Colors.black87,onPressed:()
-              {Navigator.pushNamed(context, RegistrationScreen.id);
-                //Go to login screen.
-              }, ),
-            ],
+                    SizedBox(
+                      width:10.0,
+                    ),
+                    Text(
+                      'Swatchta ',
+                      style: TextStyle(
+                        fontSize: 45.0,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 48.0,
+                ),
+                RoundedButton(title:'Log-In',colour:Colors.black54 ,onPressed: ()
+                {Navigator.pushNamed(context, LoginScreen.id);
+                  //Go to login screen.
+                },),
+                RoundedButton(title:'Register',colour: Colors.black87,onPressed:()
+                {Navigator.pushNamed(context, RegistrationScreen.id);
+                  //Go to login screen.
+                }, ),
+              ],
+            ),
+          ],
           ),
         ),
       ),

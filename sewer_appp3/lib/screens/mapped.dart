@@ -26,10 +26,13 @@ class _MapScreenState extends State<MapScreen> {
   final _firestore = Firestore.instance;
 
   List<Marker> allMarker = [];
+  double longitude ;
+  double latitude ;
 
   void initState(){
-
+    print('hello');
     gettingLocationO();
+    print('bye');
   }
 
   @override
@@ -49,7 +52,7 @@ class _MapScreenState extends State<MapScreen> {
           child: AppBar(
 
             centerTitle: true,
-            title:Text('Swatchta',
+            title:Text('Swasthya',
               style: TextStyle(
                 color: Colors.black,
               ),) ,
@@ -82,77 +85,40 @@ class _MapScreenState extends State<MapScreen> {
 
 
   void gettingLocationO() async {
+    print("second hello");
     await for(var snapshot in _firestore.collection('latlong').snapshots()){
       for(var loc in snapshot.documents) {
-        //print("hello");
-        print(loc.data.values.elementAt(0));
-       print(loc['Coordinates'].latitude);
-       print(loc['Coordinates'].longitude);
-       if(loc.data.values.elementAt(0).toString() ==  area ){
-         print('found');
-       }
-       else{
-         print('not found');
-       }
-        if(loc.data.values.elementAt(0) == area) {
-          print(area);
-          print('found');
+        print('third hello');
+        if( area == 'Kashmiri Gate' ||  area == 'kashmiri gate') {
+          print('fouth hello');
+          print(loc.data.keys.elementAt(0));
+          print(loc.data.values.elementAt(0));
+          // print(loc.data.keys.elementAt(1));
+          //print(loc.data.values.elementAt(1));
+          // print(loc.data.keys.elementAt(2));
+          // print(loc.data.values.elementAt(2));
+          //  print('hello');
+          // latitude = loc['Coordinates'].latitude;
+          //latitude = loc.data.values.elementAt(1);
+          //print(latitude);
+          //longitude = loc.data.values.elementAt(2);
+          //longitude = loc['Coordinates'].longitude;
+          // print(longitude);
           allMarker.add(Marker(
               markerId: MarkerId('myMarkder'),
               draggable: true,
               onTap: () {
                 print("marker tapped");
               },
-              position: LatLng(loc['Coordinates'].latitude, loc['Coordinates'].longitude)
+              position: LatLng(
+                  loc['Coordinates'].latitude, loc['Coordinates'].longitude)
           ));
-              break;
+          // print('bye');
           }
 
-       /*   else if( area == 'Dhaula Kuan' || area  == 'dhaula kuan') {
-            print(area);
-            print(loc['Coordinates'].latitude);
-            print(loc['Coordinates'].longitude);
-          allMarker.add(Marker(
-              markerId: MarkerId('myMarkder'),
-              draggable: true,
-              onTap: (){
-                print("marker tapped");
-              },
-              position: LatLng(loc['Coordinates'].latitude,loc['Coordinates'].longitude)
-          ));
-           }
-
-        else if( area == 'kapashera border' || area  == 'Kapashera Border') {
-          print(area);
-          print(loc['Coordinates'].latitude);
-          print(loc['Coordinates'].longitude);
-          allMarker.add(Marker(
-              markerId: MarkerId('myMarkder'),
-              draggable: true,
-              onTap: (){
-                print("marker tapped");
-              },
-              position: LatLng(loc['Coordinates'].latitude,loc['Coordinates'].longitude)
-          ));
-        }
-        else if( area == 'Palam' || area  == 'palam') {
-          print(area);
-          print(loc['Coordinates'].latitude);
-          print(loc['Coordinates'].longitude);
-          allMarker.add(Marker(
-              markerId: MarkerId('myMarkder'),
-              draggable: true,
-              onTap: (){
-                print("marker tapped");
-              },
-              position: LatLng(loc['Coordinates'].latitude,loc['Coordinates'].longitude)
-          ));
-        }
-
-        else if( area == 'Chandani Chowk' || area  == 'chandani chowk') {
-          print(area);
-          print(loc['Coordinates'].latitude);
-          print(loc['Coordinates'].longitude);
+          else if( area == 'Dhaula Kuan' || area  == 'dhaula kuan') {
+          print(loc.data.keys.elementAt(0));
+          print(loc.data.values.elementAt(0));
 
           allMarker.add(Marker(
               markerId: MarkerId('myMarkder'),
@@ -164,13 +130,10 @@ class _MapScreenState extends State<MapScreen> {
           ));
         }
 
-
-        */
-
-        //  break;
+        }
       }
-    }
-  }
+
+      }
 
 
 
