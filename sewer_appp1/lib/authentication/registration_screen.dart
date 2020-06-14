@@ -21,6 +21,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   String password;
   String password2;
   String error;
+  String firstName;
+  String LastName;
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +64,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   TextFormField(
                     onChanged: (value) {
                       //Do something with the user input.
+                      firstName = value;
                     },
                     validator: (value) => value.isEmpty ? 'Enter first name ': null,
                     decoration: kTextFileDecoration.copyWith(hintText: 'Enter your first name'),
@@ -82,6 +85,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   TextFormField(
                     onChanged: (value) {
                       //Do something with the user input.
+                      LastName = value;
                     },
                     validator: (value) => value.isEmpty ? 'Enter last name ': null,
                     decoration: kTextFileDecoration.copyWith(hintText: 'Enter your last name'),
@@ -161,7 +165,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       onPressed: () async {
                         if(_formKey.currentState.validate()){
                           setState(() => loading = true);
-                          dynamic result = await _auth.registerWithEmailAndPassword(email, password);
+                          dynamic result = await _auth.registerWithEmailAndPassword(email, password,firstName,LastName);
+
                           if(result == null) {
                             setState(() {
                               loading = false;
@@ -170,6 +175,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
                           }
                           else {
+                            print("succesufl");
                             Navigator.pushNamed(context, HomeScreen.id);
                           }
                         }

@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sewerappp/services/auth.dart';
+import 'package:sewerappp/services/database.dart';
 
 
 class MapScreen extends StatefulWidget {
@@ -26,10 +29,14 @@ class _MapScreenState extends State<MapScreen> {
   final _firestore = Firestore.instance;
 
   List<Marker> allMarker = [];
+ // GoogleMapController _controller;
+  Completer<GoogleMapController> _controller = Completer();
 
   void initState(){
 
+    super.initState();
     gettingLocationO();
+   // _onPressed();
   }
 
   @override
@@ -45,33 +52,58 @@ class _MapScreenState extends State<MapScreen> {
 
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size(double.infinity, 100),
+          preferredSize: Size(
+              double.infinity, 80,
+          ),
           child: AppBar(
 
             centerTitle: true,
-            title:Text('Swatchta',
+            title:Text(' New Delhi',
               style: TextStyle(
                 color: Colors.black,
               ),) ,
-            backgroundColor: Colors.blue,
+            backgroundColor: Colors.blueGrey,
             elevation: 50.0,
             brightness: Brightness.dark,
+            actions: <Widget>[
+              FlatButton.icon(
+                icon: Icon(Icons.search),
+                label: Text(''),
+                onPressed:() {
+
+                },
+              )
+            ],
           ),
         ),
 
-        body: Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: GoogleMap(
-                  initialCameraPosition: CameraPosition(
-                    target: LatLng(28.7041,77.1025),
-                    zoom: 11.0,
+        body: ListView(
+          children: <Widget>[
+            Column(
+            children: <Widget>[
+              Stack(
+                children: <Widget>[
+                  Container(
+                      height: MediaQuery.of(context).size.height ,
+                      width: double.infinity,
+                      child: GoogleMap(
+                        mapType: MapType.normal,
+                        initialCameraPosition: CameraPosition(
+                          target: LatLng(28.7041,77.1025),
+                          zoom: 10.0,
 
+                        ),
+                        markers: Set.from(allMarker),
+                        onMapCreated: mapController,
+                      )
                   ),
-                  markers: Set.from(allMarker),
-                )
-            ),
 
+                ],
+              )
+            ],
+          ),
+          ],
+        )
     )
     );
   }
@@ -81,99 +113,50 @@ class _MapScreenState extends State<MapScreen> {
   }
 
 
+  void fetchData(){
+   // DatabaseService(area: area).readData(7, '1');
+  }
+
   void gettingLocationO() async {
-    await for(var snapshot in _firestore.collection('latlong').snapshots()){
-      for(var loc in snapshot.documents) {
-        //print("hello");
+    String ar = area;
+    print(ar.runtimeType);
+
+    await for(var snapshot in _firestore.collection(area).snapshots()){
+
+   for(var loc in snapshot.documents) {
+
         print(loc.data.values.elementAt(0));
-       print(loc['Coordinates'].latitude);
-       print(loc['Coordinates'].longitude);
-       if(loc.data.values.elementAt(0).toString() ==  area ){
-         print('found');
-       }
-       else{
-         print('not found');
-       }
-        if(loc.data.values.elementAt(0) == area) {
-          print(area);
-          print('found');
+        print(loc.data.values.elementAt(1));
+        print(loc.data.values.elementAt(2));
+       // print(loc['Coordinates'].latitude);
+       // print(loc['Coordinates'].longitude);
+
           allMarker.add(Marker(
               markerId: MarkerId('myMarkder'),
               draggable: true,
+              infoWindow: InfoWindow(
+               title: (loc.data.values.elementAt(2)),
+              ),
               onTap: () {
                 print("marker tapped");
               },
-              position: LatLng(loc['Coordinates'].latitude, loc['Coordinates'].longitude)
-          ));
-              break;
-          }
-
-       /*   else if( area == 'Dhaula Kuan' || area  == 'dhaula kuan') {
-            print(area);
-            print(loc['Coordinates'].latitude);
-            print(loc['Coordinates'].longitude);
-          allMarker.add(Marker(
-              markerId: MarkerId('myMarkder'),
-              draggable: true,
-              onTap: (){
-                print("marker tapped");
-              },
-              position: LatLng(loc['Coordinates'].latitude,loc['Coordinates'].longitude)
-          ));
-           }
-
-        else if( area == 'kapashera border' || area  == 'Kapashera Border') {
-          print(area);
-          print(loc['Coordinates'].latitude);
-          print(loc['Coordinates'].longitude);
-          allMarker.add(Marker(
-              markerId: MarkerId('myMarkder'),
-              draggable: true,
-              onTap: (){
-                print("marker tapped");
-              },
-              position: LatLng(loc['Coordinates'].latitude,loc['Coordinates'].longitude)
-          ));
-        }
-        else if( area == 'Palam' || area  == 'palam') {
-          print(area);
-          print(loc['Coordinates'].latitude);
-          print(loc['Coordinates'].longitude);
-          allMarker.add(Marker(
-              markerId: MarkerId('myMarkder'),
-              draggable: true,
-              onTap: (){
-                print("marker tapped");
-              },
-              position: LatLng(loc['Coordinates'].latitude,loc['Coordinates'].longitude)
-          ));
-        }
-
-        else if( area == 'Chandani Chowk' || area  == 'chandani chowk') {
-          print(area);
-          print(loc['Coordinates'].latitude);
-          print(loc['Coordinates'].longitude);
-
-          allMarker.add(Marker(
-              markerId: MarkerId('myMarkder'),
-              draggable: true,
-              onTap: (){
-                print("marker tapped");
-              },
-              position: LatLng(loc['Coordinates'].latitude,loc['Coordinates'].longitude)
-          ));
-        }
+              position: LatLng(
+                  loc['Coordinates'].latitude, loc['Coordinates'].longitude),
+          //  zIndex: 12.0,
+            flat:true,
 
 
-        */
-
-        //  break;
+          )
+          );
       }
+
     }
   }
 
 
-
+   void mapController(GoogleMapController controller){
+    _controller.complete(controller);
+   }
 }
 
 
