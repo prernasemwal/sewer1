@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sewerappp/screens/mapped.dart';
+import 'package:sewerappp/screens/welcome_screen.dart';
 import 'package:sewerappp/services/auth.dart';
 import 'package:sewerappp/shared/components.dart';
 import 'package:sewerappp/shared/rounded_button.dart';
@@ -34,14 +35,15 @@ class _HomeScreenState extends State<HomeScreen> {
               color: Colors.black,
              ),
             ) ,
-            backgroundColor: Colors.blue,
+            backgroundColor: Colors.blueGrey,
             elevation: 50.0,
               actions: <Widget>[
                 FlatButton.icon(
                          icon: Icon(Icons.person),
                         label: Text('logout'),
                         onPressed: () async {
-                                await _auth.signOut();
+                               // await _auth.signOut();
+                             Navigator.pushNamed(context, WelcomeScreen.id);
                           },
                 ),
               ],
@@ -129,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   title: "Search",
                   colour: Colors.black,
                   onPressed: (){
-                     print(t1.text);
+                  //   print(t1.text);
                      navigateToDetail(t1.text);
                   },
 
