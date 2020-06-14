@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sewerappp/screens/mapped.dart';
 import 'package:sewerappp/screens/welcome_screen.dart';
 import 'package:sewerappp/services/auth.dart';
+import 'package:sewerappp/services/database_map.dart';
 import 'package:sewerappp/shared/components.dart';
 import 'package:sewerappp/shared/rounded_button.dart';
 
@@ -132,7 +133,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   colour: Colors.black,
                   onPressed: (){
                   //   print(t1.text);
-                     navigateToDetail(t1.text);
+                   navigateToDetail(t1.text);
+
                   },
 
                 ),
